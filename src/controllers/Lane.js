@@ -154,6 +154,7 @@ class Lane extends Component {
       tagStyle,
       cardStyle,
       components,
+      cardLockAxis,
       t
     } = this.props
     const {addCardMode, collapsed} = this.state
@@ -190,6 +191,7 @@ class Lane extends Component {
           groupName={this.groupName}
           dragClass={cardDragClass}
           dropClass={cardDropClass}
+          cardLockAxis={!cardLockAxis ? undefined : cardLockAxis}
           onDragStart={this.onDragStart}
           onDrop={e => this.onDragEnd(id, e)}
           onDragEnter={() => this.setState({isDraggingOver: true})}
@@ -197,6 +199,7 @@ class Lane extends Component {
           shouldAcceptDrop={this.shouldAcceptDrop}
           getChildPayload={index => this.props.getCardDetails(id, index)}>
           {cardList}
+          {components.LaneContent && <components.LaneContent {...this.props} isDraggingOver={isDraggingOver} />}
         </Container>
         {editable && !addCardMode && <components.AddCardLink onClick={this.showEditableCard} t={t} />}
         {addCardMode && (
@@ -273,6 +276,7 @@ Lane.propTypes = {
   actions: PropTypes.object,
   id: PropTypes.string.isRequired,
   boardId: PropTypes.string,
+  cardLockAxis: PropTypes.string,
   title: PropTypes.node,
   index: PropTypes.number,
   laneSortFunction: PropTypes.func,
@@ -312,7 +316,8 @@ Lane.defaultProps = {
   label: undefined,
   editable: false,
   onLaneUpdate: () => {},
-  onCardAdd: () => {}
+  onCardAdd: () => {},
+  cardLockAxis: undefined
 }
 
 const mapDispatchToProps = dispatch => ({
