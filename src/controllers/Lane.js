@@ -154,10 +154,8 @@ class Lane extends Component {
       tagStyle,
       cardStyle,
       components,
-<<<<<<< Updated upstream
-=======
       CardContainerProps,
->>>>>>> Stashed changes
+      cardLockAxis,
       t
     } = this.props
     const {addCardMode, collapsed} = this.state
@@ -291,6 +289,7 @@ Lane.propTypes = {
   actions: PropTypes.object,
   id: PropTypes.string.isRequired,
   boardId: PropTypes.string,
+  cardLockAxis: PropTypes.string,
   title: PropTypes.node,
   index: PropTypes.number,
   laneSortFunction: PropTypes.func,
@@ -330,7 +329,8 @@ Lane.defaultProps = {
   label: undefined,
   editable: false,
   onLaneUpdate: () => {},
-  onCardAdd: () => {}
+  onCardAdd: () => {},
+  cardLockAxis: undefined
 }
 
 const mapDispatchToProps = dispatch => ({

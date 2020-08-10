@@ -107,6 +107,12 @@ class BoardContainer extends Component {
     const {id} = this.props
     return `TrelloBoard${id}`
   }
+  
+  shouldLaneAccepDrop = (sourceContainerOptions, payload) => {
+    const { laneDroppable } = payload
+    console.log('POTA PEPE', payload, sourceContainerOptions, laneDroppable)
+    return typeof laneDroppable === 'undefined' ? false : !!laneDroppable
+  }
 
   shouldLaneAccepDrop = (sourceContainerOptions, payload) => {
     const { laneDroppable } = payload
@@ -182,6 +188,8 @@ class BoardContainer extends Component {
             dropClass={laneDropClass}
             onDrop={this.onLaneDrop}
             lockAxis="x"
+            shouldAcceptDrop={shouldLaneAcceptDrop || this.shouldLaneAccepDrop}
+            shouldAnimateDrop={shouldLaneAnimateDrop}
             getChildPayload={index => this.getLaneDetails(index)}
             groupName={this.groupName}
             {...LaneContainerProps}
@@ -279,6 +287,8 @@ BoardContainer.defaultProps = {
   onLaneDelete: () => {},
   onCardMoveAcrossLanes: () => {},
   onLaneUpdate: () => {},
+  shouldLaneAccepDrop: () => {},
+  shouldLaneAnimateDrop: () => {},
   editable: false,
   canAddLanes: false,
   hideCardDeleteIcon: false,
