@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import pick from 'lodash/pick'
 import isEqual from 'lodash/isEqual'
 import Lane from './Lane'
-import {PopoverWrapper} from 'react-popopo'
+import { PopoverWrapper } from 'react-popopo'
 
 import * as boardActions from 'rt/actions/BoardActions'
 import * as laneActions from 'rt/actions/LaneActions'
@@ -108,6 +108,11 @@ class BoardContainer extends Component {
     return `TrelloBoard${id}`
   }
 
+  shouldLaneAccepDrop = (sourceContainerOptions, payload) => {
+    const { laneDroppable } = payload
+    return typeof laneDroppable === 'undefined' ? false : !!laneDroppable
+  }
+  
   render() {
     const {
       id,
@@ -131,8 +136,11 @@ class BoardContainer extends Component {
       editable,
       canAddLanes,
       laneStyle,
+      shouldLaneAcceptDrop,
+      shouldLaneAnimateDrop,
       onCardMoveAcrossLanes,
       t,
+      LaneContainerProps,
       ...otherProps
     } = this.props
 
@@ -160,7 +168,8 @@ class BoardContainer extends Component {
       'handleDragEnd',
       'cardDragClass',
       'editLaneTitle',
-      't'
+      't',
+      'CardContainerProps'
     ])
 
     return (
@@ -174,7 +183,9 @@ class BoardContainer extends Component {
             onDrop={this.onLaneDrop}
             lockAxis="x"
             getChildPayload={index => this.getLaneDetails(index)}
-            groupName={this.groupName}>
+            groupName={this.groupName}
+            {...LaneContainerProps}
+          >
             {reducerData.lanes.map((lane, index) => {
               const {id, droppable, ...otherProps} = lane
               const laneToRender = (
@@ -194,21 +205,20 @@ class BoardContainer extends Component {
                   {...passthroughProps}
                 />
               )
-
+              
               if (typeof lane.draggable === 'boolean') {
                 return lane.draggable ? <Draggable key={lane.id}>{laneToRender}</Draggable> : laneToRender
               }
-
+              
+              
               return draggable && laneDraggable ? <Draggable key={lane.id}>{laneToRender}</Draggable> : laneToRender
             })}
           </Container>
         </PopoverWrapper>
         {canAddLanes && (
           <Container orientation="horizontal">
-            {editable && !addLaneMode ? (
-              <components.NewLaneSection t={t} onClick={this.showEditableLane} />
-            ) : (
-              addLaneMode && <components.NewLaneForm onCancel={this.hideEditableLane} onAdd={this.addNewLane} t={t} />
+            {editable && !addLaneMode ? <components.NewLaneSection t={t} onClick={this.showEditableLane} /> : (
+              addLaneMode && <components.NewLaneForm onCancel={this.hideEditableLane} onAdd={this.addNewLane} t={t}/>
             )}
           </Container>
         )}
@@ -234,6 +244,8 @@ BoardContainer.propTypes = {
   onLaneDelete: PropTypes.func,
   onLaneClick: PropTypes.func,
   onLaneUpdate: PropTypes.func,
+  shouldLaneAccepDrop: () => {},
+  shouldLaneAnimateDrop: () => {},
   laneSortFunction: PropTypes.func,
   draggable: PropTypes.bool,
   collapsibleLanes: PropTypes.bool,
@@ -246,18 +258,18 @@ BoardContainer.propTypes = {
   handleLaneDragEnd: PropTypes.func,
   style: PropTypes.object,
   tagStyle: PropTypes.object,
+  LaneContainerProps: PropTypes.object,
   laneDraggable: PropTypes.bool,
-  cardStyle: PropTypes.object,
   cardDraggable: PropTypes.bool,
   cardDragClass: PropTypes.string,
   laneDragClass: PropTypes.string,
   laneDropClass: PropTypes.string,
   onCardMoveAcrossLanes: PropTypes.func.isRequired,
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
 }
 
 BoardContainer.defaultProps = {
-  t: v => v,
+  t: v=>v,
   onDataChange: () => {},
   handleDragStart: () => {},
   handleDragEnd: () => {},
@@ -276,7 +288,9 @@ BoardContainer.defaultProps = {
   cardDraggable: true,
   cardDragClass: 'react_trello_dragClass',
   laneDragClass: 'react_trello_dragLaneClass',
-  laneDropClass: ''
+  laneDropClass: '',
+  LaneContainerProps: {},
+  CardContainerProps: {},
 }
 
 const mapStateToProps = state => {
