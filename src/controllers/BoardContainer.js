@@ -82,6 +82,10 @@ class BoardContainer extends Component {
             return actions.updateLanes(event.lanes)
           case 'UPDATE_LANE':
             return actions.updateLane(event.lane)
+          case 'ADD_LANE':
+            return actions.addLane(event.lane)
+          case 'REMOVE_LANE':
+            return actions.removeLane(event.lane)
         }
       }
     }
@@ -110,7 +114,6 @@ class BoardContainer extends Component {
   
   shouldLaneAccepDrop = (sourceContainerOptions, payload) => {
     const { laneDroppable } = payload
-    console.log('POTA PEPE', payload, sourceContainerOptions, laneDroppable)
     return typeof laneDroppable === 'undefined' ? false : !!laneDroppable
   }
 
