@@ -180,7 +180,8 @@ class BoardContainer extends Component {
       'cardDragClass',
       'editLaneTitle',
       't',
-      'CardContainerProps'
+      'CardContainerProps',
+      'CardProps'
     ])
 
     return (

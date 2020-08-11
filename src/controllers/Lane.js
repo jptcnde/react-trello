@@ -155,6 +155,7 @@ class Lane extends Component {
       cardStyle,
       components,
       CardContainerProps,
+      CardProps,
       cardLockAxis,
       t
     } = this.props
@@ -177,6 +178,7 @@ class Lane extends Component {
           showDeleteButton={!hideCardDeleteIcon}
           tagStyle={tagStyle}
           cardDraggable={cardDraggable}
+          {...CardProps}
           {...card}
         />
       )
