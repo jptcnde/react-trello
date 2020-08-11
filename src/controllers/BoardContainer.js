@@ -85,7 +85,9 @@ class BoardContainer extends Component {
           case 'ADD_LANE':
             return actions.addLane(event.lane)
           case 'REMOVE_LANE':
-            return actions.removeLane(event.lane)
+            return actions.removeLane({ laneId: event.laneId })
+          case 'MOVE_LANE':
+            return actions.moveLane({ oldIndex: event.oldIndex, newIndex: event.newIndex })
         }
       }
     }
