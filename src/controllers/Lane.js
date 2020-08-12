@@ -157,6 +157,8 @@ class Lane extends Component {
       CardContainerProps,
       CardProps,
       cardLockAxis,
+      laneLockAxis,
+      laneOrientation = 'vertical',
       t
     } = this.props
     const {addCardMode, collapsed} = this.state
@@ -200,10 +202,11 @@ class Lane extends Component {
     return (
       <components.ScrollableLane ref={this.laneDidMount} isDraggingOver={isDraggingOver}>
         <Container
-          orientation="vertical"
+          orientation={laneOrientation}
           groupName={this.groupName}
           dragClass={cardDragClass}
           dropClass={cardDropClass}
+          lockAxis={laneLockAxis}
           onDragStart={this.onDragStart}
           onDrop={e => this.onDragEnd(id, e)}
           onDragEnter={() => this.setState({isDraggingOver: true})}
@@ -292,6 +295,8 @@ Lane.propTypes = {
   id: PropTypes.string.isRequired,
   boardId: PropTypes.string,
   cardLockAxis: PropTypes.string,
+  laneLockAxis: PropTypes.string,
+  laneOrientation: PropTypes.string,
   title: PropTypes.node,
   index: PropTypes.number,
   laneSortFunction: PropTypes.func,

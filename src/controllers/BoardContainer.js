@@ -119,11 +119,6 @@ class BoardContainer extends Component {
     return typeof laneDroppable === 'undefined' ? false : !!laneDroppable
   }
 
-  shouldLaneAccepDrop = (sourceContainerOptions, payload) => {
-    const { laneDroppable } = payload
-    return typeof laneDroppable === 'undefined' ? false : !!laneDroppable
-  }
-  
   render() {
     const {
       id,
@@ -181,7 +176,8 @@ class BoardContainer extends Component {
       'editLaneTitle',
       't',
       'CardContainerProps',
-      'CardProps'
+      'CardProps',
+      'get'
     ])
 
     return (
