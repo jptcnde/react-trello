@@ -135,7 +135,7 @@ class Lane extends Component {
           cardId: payload.id,
           index: addedIndex
         })
-        this.props.onCardMoveAcrossLanes(payload.laneId, laneId, payload.id, addedIndex)
+        this.props.onCardMoveAcrossLanes(payload.laneId, laneId, payload.id, addedIndex, payload)
       }
       return response
     }
